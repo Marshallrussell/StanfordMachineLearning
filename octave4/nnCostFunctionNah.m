@@ -29,10 +29,7 @@ m = size(X, 1);
 J = 0;
 Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
-size(Theta2_grad)
-size(Theta1_grad)
-size(Theta1)
-size(Theta2)
+
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should complete the code by working through the
 %               following parts.
@@ -65,84 +62,115 @@ size(Theta2)
 %               and Theta2_grad from Part 2.
 %
 
-%%%%%%%%%%%%%% PART ONE %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% PART ONE %%%%%%%%%%
+% theta = j columns x i rows and sum over L
+% add regularization to the variable J... in part three*.
+% J = 1/m * sum(sum((-y)'*(log(g)) - (1-y)'*(log(1-g)))) ;
+% Feed Forward the neural network and return the cost in the variable J
+% STEP - build up z to find a_l
 
 a_1 = X;
 % Add ones to the X data matrix
 a_1 = [ones(m, 1) a_1];
-z_2 = Theta1 * a_1';                    %25x401 * 5000x401 '
-a_2 = sigmoid(z_2);                     %25x5000
+z_2 = Theta1 * a_1';        %25x401 * 5000x401 '
+a_2 = sigmoid(z_2);               %25x5000     NEW JCOST
 % Add ones to the X data matrix
-a_2 = [ones(m, 1) a_2'];                %5000x26
-z_3 = Theta2 * a_2' ;                   %10x26 * 26x5000   
-a_3 = sigmoid(z_3');                    %5000x10
+a_2 = [ones(m, 1) a_2'];    %5000x26
+z_3 = Theta2 * a_2' ;      %10x26 * 26x5000   
+a_3 = sigmoid(z_3');               %10x5000  5000x10        NEW JCOST
+%check for bias activation in layer 1 and 2.  DONE.
+% NOTE **recode the extra bias in theta2
 
-J = 1/m * sum(sum((-y)'*(log(a_3)) - (1-y)'*(log(1-a_3)))) ;
-%'
-%%%%%%%%%%%%%%%% PART TWO %%%%%%%%%%%%%%%%%%%%%%%
+% this a_3 = h(x) = a1_3 = g(theta2 * a_2)
 
+J = 1/m * sum(sum((-y)'*(log(a_3)) - (1-y)'*(log(1-a_3))))
+
+%%%%%%%%%%%%%%%%%%%%%% PART TWO %%%%%%%%%%
+% NOW THE GRADIENT DOESNT WORK YET...
+% grad = 1/m * X' * (sigmoid(X*theta)-y) + lambda / m * theta .* (ones(size(theta))-eye(size(theta))) ;
+
+
+
+%STEP - build up z to find a_l
 delta_3 = a_3 - y;         %5000X10 - 5000X10
-Theta2_grad = 1/m * ( delta_3' * a_2);              %10x5000 * 5000X26
-delta_2 = delta_3 * Theta2 .* a_2 .* (1 - a_2);     %5000X10 * 10X26 - 5000X26
-delta_2 = delta_2(:,2:size(delta_2,2));             %25X5000
-Theta1_grad = 1/m * ( delta_2' * a_1);              %25x5000 * 5000X401
+size(Theta2)
+size(delta_3)
+size(a_2)
+size(a_3)
+% part one and part two are working.   
 
-%%%%%%%%%%%%%%%% PART THREE %%%%%%%%%%%%%%%%%%%%%%
+% STEP - compute the g_prime : Theta2 ' * delta_3 .* g_prime(z_l)
+delta_2 = delta_3 * Theta2 .* a_2 .* (1 - a_2);       %5000X10 * 10X26 (THETA2) 5000X26 .- 5000X26 .- 5000X26
+%check for regularization... IN STEP THREE....
 
-%capdelta1 = zeros(25,401);
-%capdelta2 = zeros(10,26);
-%capD1 = zeros(25,401);
-%capD2 = zeros(10,26);
+%STEP - now it is ready to compute the gradients using a summation for each trial.
+Theta2_grad = 1/m * ( delta_3' * a_2);        % 10x5000 * 5000X26
+delta_2 = delta_2(:,2:size(delta_2,2)) ;
+Theta1_grad = 1/m * ( delta_2' * a_1);        %  * 25x5000 * 5000X401
 
-capdelta1 = capdelta1 + delta_2'*a_1 ;  %25x5000   5000x401
-capdelta2 = capdelta2 + delta_3'*a_2 ;  %10x5000  5000x26
+capdelta = 0;
 
-capD1 = capdelta1 + lambda * Theta1_grad ;
-capD1(:,1) = capdelta1(:,1) ;
-
-capD2 = capdelta2 + lambda * Theta2_grad ;
-capD2(:,1) = capdelta2(:,1) ;
-
+capdelta_1 = capdelta_0 + delta_2*a_1' ;
+cepdelta_2 = capdelta_1 + delta_3*a_2'
 
 
-%%%%%%%%%%%%%%%% PART THREE %%%%%%%%%%%%%%%%%%%%%%
-regularization = 0;
-
-for l=1:2
-
-if l=1,
-theta_temp = Theta1;
-else if l=2,
-theta_temp = Theta2;
+for l=1:1;
+for j = 1:401;
+for i=1:25;
+capdelta_1 = capdelta_0 + delta_2*a_1';
+if j != 1,
+capd = capdelta_1 + theta1*lambda ; 
+else 
+capd = capdelta_0 ; 
 end
-
-regularization_temp = 0;
-
-    for i=1:size(theta_temp,1)
-    for j=2:size(theta_temp,2)
-        regularization_temp += ((lambda/(2*m)) * sum(sum(theta_temp(i , j) .^ 2))) ;
-    end
-    end
-
-regularization += regularization_temp ;
-
+end
+end
 end
 
 
-% =========================================================================
-% Update J for regularization
+
+for l=2:2;
+for j = 1:26
+for i=1:10;
+capdelta_2 = capdelta_1 + delta_3*a_2';
+if j != 1,
+capd = capdelta_2 + theta2*lambda ; 
+else 
+capd = capdelta_2 ;
+end
+end
+end
+end
+
+%10X26
+%25X401   %accounts for theta1 being 25x401  instead of 26
+% WORKS - TRY TO DIMENSIONIZE THE THETA1GRAD SO THE 26 LOOKS LIKE A 25...
+% cant find any training sets...  this means skip the for loop to sum the training examples.  
+% HOW DO YOU FIND H AND G FOR NN
+% SAME WAY YOU ALWAYS DO -  BUILD UP X Z A FOR A-L
+
+
+%%%%%%%%%%%%%%%% PART THREE %%%%%%%%%%%%%%%%%%%%%%
+for l=1:2;
+    if l==1,
+        theta_temp = [ones(size(Theta1,2));Theta1];
+    else if l==2,
+        theta_temp = [ones(size(Theta2,2));Theta2];
+    end
+    for i=1:size(theta_temp,2);
+        regularization_temp = ((lambda/(2*m)) * sum(sum(theta_temp(2:size(theta_temp,1),i) .^ 2))) ;
+    end
+    regularization += regularization_temp;
+end
 
 J = J + regularization ;
 
+% -------------------------------------------------------------
+
+% =========================================================================
+
 % Unroll gradients
-
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-D = [capD1(:) ; capD2(:)]
-
-% Update grad for regularization
-
-grad = grad + D ;
-
 
 
 end
