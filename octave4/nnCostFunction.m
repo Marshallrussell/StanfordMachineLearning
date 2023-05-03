@@ -65,7 +65,7 @@ size(Theta2)
 %               and Theta2_grad from Part 2.
 %
 
-%%%%%%%%%%%%%% PART ONE %%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%% PART ONE FEED FORWARD %%%%%%%%%%%%%%%
 
 a_1 = X;
 % Add ones to the X data matrix
@@ -78,8 +78,8 @@ z_3 = Theta2 * a_2' ;                   %10x26 * 26x5000
 a_3 = sigmoid(z_3');                    %5000x10
 
 J = 1/m * sum(sum((-y)'*(log(a_3)) - (1-y)'*(log(1-a_3)))) ;
-%'
-%%%%%%%%%%%%%%%% PART TWO %%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%% PART TWO BACKPROPAGATION %%%%%%%%%%%%
 
 delta_3 = a_3 - y;         %5000X10 - 5000X10
 Theta2_grad = 1/m * ( delta_3' * a_2);              %10x5000 * 5000X26
@@ -87,7 +87,7 @@ delta_2 = delta_3 * Theta2 .* a_2 .* (1 - a_2);     %5000X10 * 10X26 - 5000X26
 delta_2 = delta_2(:,2:size(delta_2,2));             %25X5000
 Theta1_grad = 1/m * ( delta_2' * a_1);              %25x5000 * 5000X401
 
-%%%%%%%%%%%%%%%% PART THREE %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% PART THREE GRAD %%%%%%%%%%%%%%%%%%%%%%
 
 %capdelta1 = zeros(25,401);
 %capdelta2 = zeros(10,26);
@@ -105,7 +105,7 @@ capD2(:,1) = capdelta2(:,1) ;
 
 
 
-%%%%%%%%%%%%%%%% PART THREE %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% PART THREE COST %%%%%%%%%%%%%%%%%%%%%%
 regularization = 0;
 
 for l=1:2
