@@ -63,7 +63,6 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 %%%%%%%%%%%%%% PART ONE FEED FORWARD %%%%%%%%%%%%%%%
-% use the 1x1 multiplication
 
 a1 = [ones(m,1) X];                                         %5000x401
 
@@ -75,11 +74,15 @@ z3 = a2*Theta2';                                            %5000x26 * 26x10
 a3 = sigmoid(z3);                                           %5000x10
 h = a3;
 
+
+
 for i = 1:size(X,1)
 y2 = zeros(size(Theta2,1),1);
 y2(y(i)) = 1;
-J += 1/m * (-y2'*(log(h(i,:)')) - (1-y2')*(log(1-h(i,:)' ) ) ) ;   % 10x1 * 1x10  1x1
+J += 1/m * (-y2'*(log(h(i,:)')) - (1-y2')*(log(1-h(i,:)' ) ) ) ;   % 10x1 * 1x10 5000x10 1x1
 end
+
+% use the 1x1 multiplication
 
 
 

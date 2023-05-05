@@ -62,36 +62,91 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% How is the theta 2 dimension is 10 finally but the y dimension is 1.
+% calculate the new exercise and the pdf
+% move to the next week
+% XX the ones before the sigmoid
+% the y has only 1 dimension
+% is z = sum over theta and a units
+% then is z 1x1
+% not summing   got to sum...  ?   for loop for the trials...
+
+
+
 %%%%%%%%%%%%%% PART ONE FEED FORWARD %%%%%%%%%%%%%%%
-% use the 1x1 multiplication
 
-a1 = [ones(m,1) X];                                         %5000x401
+a_1 = [ones(m, 1) X];                   %5000x401
+% Add ones to the X data matrix
+z_2 = a_1*Theta1';                      %5000x401 *  401x25
+a_2 = sigmoid(z_2);                     %5000x25
+a_2 = [ones(m, 1) a_2];                 %5000x26
+% Add ones to the X data matrix
+z_3 = a_2*Theta2' ;                     %5000x26  * 26x10  
+a_3 = sigmoid(z_3);                     %5000x10
 
-z2 = a1*Theta1';                                            %5000x401 * 401x25
-a2 = sigmoid(z2);                                           %5000x25
-a2 = [ones(m,1) a2];                                        %5000x26
+J = 1/m * sum((-y)'*(log(a_3)) - (1-y)'*(log(1-a_3))) ;  % 1x10  1x1
 
-z3 = a2*Theta2';                                            %5000x26 * 26x10
-a3 = sigmoid(z3);                                           %5000x10
-h = a3;
+%%%%%%%%%%%%%%%% PART TWO BACKPROPAGATION %%%%%%%%%%%%
 
-for i = 1:size(X,1)
-y2 = zeros(size(Theta2,1),1);
-y2(y(i)) = 1;
-J += 1/m * (-y2'*(log(h(i,:)')) - (1-y2')*(log(1-h(i,:)' ) ) ) ;   % 10x1 * 1x10  1x1
+delta_3 = a_3 - y;         %5000X10 - 5000X10           THE Y IS ONLY 5000X1
+size(delta_3)
+size(y)
+Theta2_grad = 1/m * ( delta_3' * a_2);              %10x5000 * 5000X26
+delta_2 = delta_3 * Theta2 .* a_2 .* (1 - a_2);     %5000X10 * 10X26 - 5000X26
+delta_2 = delta_2(:,2:size(delta_2,2));             %25X5000
+Theta1_grad = 1/m * ( delta_2' * a_1);              %25x5000 * 5000X401
+
+%%%%%%%%%%%%%%%% PART THREE GRAD %%%%%%%%%%%%%%%%%%%%%%
+
+capdelta1 = delta_2'*a_1 ;  %25x5000   5000x401
+capdelta2 = delta_3'*a_2 ;  %10x5000  5000x26
+
+capD1 = capdelta1 + lambda * Theta1_grad ;
+capD1(:,1) = capdelta1(:,1) ;
+
+capD2 = capdelta2 + lambda * Theta2_grad ;
+capD2(:,1) = capdelta2(:,1) ;
+
+
+
+%%%%%%%%%%%%%%%% PART THREE COST %%%%%%%%%%%%%%%%%%%%%%
+regularization = 0;
+
+for l=1:2
+
+if l==1,
+theta_temp = Theta1;
+else if l==2,
+theta_temp = Theta2;
+end
+
+regularization_temp = 0;
+
+    for i=1:size(theta_temp,1)
+    for j=2:size(theta_temp,2)
+        regularization_temp += ((lambda/(2*m)) * sum(sum(theta_temp(i , j) .^ 2))) ;
+    end
+    end
+
+regularization += regularization_temp ;
+
 end
 
 
+% =========================================================================
+% Update J for regularization
 
-%  ONE sum the j over the number of units in a3...
-%  ONE recode the y vector into vectors should rearrange the equations with y in them. should change everthing.
-%  TWO with the y changed, you need to sum over all the examples
-%  TWO keep in mind the examples use one row at a time and the theta uses one row for each unit in the hidden layers
-%  THREE put each row of the y vector in the form of a 10 by 1 vector,  
-%  then use the 10 to multiply to the ten in the a3, 
-%  then consider it the row of the 5000 and combine from the earlier row.
-%  each row you find another 10 by 1 vector and another 10 x 5000 vector that you only use one row.
-%  FOUR the first sum is performed by the vector multiplication,  the second is the loop += J...
-grad = [0];
+J = J + regularization ;
+
+% Unroll gradients
+
+grad = [Theta1_grad(:) ; Theta2_grad(:)];
+D = [capD1(:) ; capD2(:)]
+
+% Update grad for regularization
+
+grad = grad + D ;
+
+
+
 end
-% audio engineer
