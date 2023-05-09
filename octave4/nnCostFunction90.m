@@ -59,10 +59,11 @@ delta2 = delta3 * Theta2 .* a2 .* (1-a2)  ;                         %5000x10  * 
 delta2 = delta2(:,2:size(delta2,2)) ;                               %5000x25
 Theta1_grad = 1/m * delta2' * a1 ;                                  %5000x25 * 5000x401   25x401
 
+%  NOT WORKING WITH GRADIENT REGULARIZATION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Theta1_grad += lambda/(2*m)*(sum(sum(Theta1))-sum(Theta1(:,1))) ;
-Theta2_grad += lambda/(2*m)*(sum(sum(Theta2))-sum(Theta2(:,1))) ;
-
+Theta1_grad += lambda / m * ( sum(sum(Theta1)) - sum(Theta1(:,1)) ) ;
+Theta2_grad += lambda / m * ( sum(sum(Theta2)) - sum(Theta2(:,1)) ) ;
 
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
@@ -70,20 +71,3 @@ grad = [Theta1_grad(:) ; Theta2_grad(:)];
 end
 
 % Need 80 of 100   Have 90 of 100
-
-%   Theta_temp = Theta1;
-
-%   for i=1:size(Theta_temp,1)
-%   for j=2:size(Theta_temp,2)
-%   Theta1_grad += lambda/(2*m)*Theta_temp(i,j);
-%   end
-%   end
-
-%   Theta_temp = Theta2;
-
-%   for i=1:size(Theta_temp,1)
-%   for j=2:size(Theta_temp,2)
-%   Theta2_grad += lambda/(2*m)*Theta_temp(i,j);
-%   end
-%   end
-
