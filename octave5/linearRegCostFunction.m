@@ -18,19 +18,14 @@ grad = zeros(size(theta));
 %
 %               You should set J to the cost and grad to the gradient.
 %
-z = X*theta;
-g = 1.0 ./ (1.0 + exp(-z));
 
+predictions = X * theta;
 
+sqrErrors = (predictions - y) .^2;
 
-J = 1/m * ((-y)'*(log(g)) - (1-y)'*(log(1-g))) + (lambda/(2*m)) * sum(theta(2:length(theta)) .^ 2) ;
-grad = 1/m * X' * (g-y) + lambda / m * theta .* (ones(size(theta))-eye(size(theta))) ;
+J = 1 / (2*m) * sum(sqrErrors) + (lambda/(2*m)) * sum(theta(2:length(theta)) .^ 2) ;
 
-
-
-
-
-
+grad = 1/m * X' * (predictions - y) +  lambda / m * theta .* (ones(size(theta))-eye(size(theta))) ;
 
 
 

@@ -12,6 +12,7 @@ m = length(y); % number of training examples
 J = 0;
 grad = zeros(size(theta));
 
+
 g = sigmoid(X*theta);
 
 
