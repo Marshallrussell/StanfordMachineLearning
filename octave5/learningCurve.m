@@ -46,16 +46,19 @@ error_val   = zeros(m, 1);
            % Compute train/cross validation errors using training examples 
            % X(1:i, :) and y(1:i), storing the result in 
            % error_train(i) and error_val(i)
-            theta = trainLinearReg(X(1:i,:), y(1:i,:), lambda);
-            error_train(i) = linearRegCostFunction((X, y, theta, 0);
+            thetatrain = trainLinearReg(X(1:i , :), y(1:i), lambda);
+            error_train(i) = linearRegCostFunction(X, y, thetatrain, 0);
        end
 
-       for j=1:m
+% THIS IS JAMMING WITH USING THE SAME DIMENSION FOR FEATURES IN CROSS AND TRAIN...
+% THIS MAY WORK IF YOU COME UP WITH A SUBSTITUTE FOR 'M' IN BELOW...
+
+       for j = 1:m
             % Compute train/cross validation errors using training examples 
             % X(1:i, :) and y(1:i), storing the result in 
             % error_train(i) and error_val(i)
-             theta = trainLinearReg(Xval(1:j,:), yval(1:j,:), lambda);
-             error_train(i) = linearRegCostFunction((X, y, theta, 0);
+             thetaval = trainLinearReg(Xval(1:j , :), yval(1:j), lambda);
+             error_val(i) = linearRegCostFunction(Xval, yval, thetaval, 0);
        end
 
 % ---------------------- Sample Solution ----------------------
