@@ -23,9 +23,9 @@ predictions = X * theta;
 
 sqrErrors = (predictions - y) .^2;
 
-J = 1 / (2*m) * sum(sqrErrors) + (lambda/(2*m)) * sum(theta(2:length(theta)) .^ 2) ;
+J = 1/(2*m)*sum(sqrErrors) + (lambda/(2*m))*sum(theta(2:length(theta)).^2) ;
 
-grad = 1/m * X' * (predictions - y) +  lambda / m * theta .* (ones(size(theta))-eye(size(theta))) ;
+grad = 1/m*X'*(predictions-y) +  lambda/m*theta.*(ones(size(theta))-eye(size(theta))) ;
 
 
 
