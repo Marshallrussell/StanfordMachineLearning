@@ -50,7 +50,8 @@ J += 1/m * (-y2'*(log(h(i,:)')) - (1-y2')*(log(1-h(i,:)' ) ) ) ;    %10x1 * 1x10
 y3(i,:) = y2' ;
 end
 
-J += lambda/(2*m)*( sum(sum(Theta1.^2))+sum(sum(Theta2.^2))-sum(Theta1(:,1).^2)-sum(Theta2(:,1).^2) );
+%%%%%%%%%%%%%% PART TWO BACKPROPAGATION %%%%%%%%%%%%%%%
+
 
 delta3 = h - y3 ;
 Theta2_grad = 1/m * delta3' * a2  ;                                 %5000x10  * 5000x26   10x26
@@ -60,30 +61,26 @@ delta2 = delta2(:,2:size(delta2,2)) ;                               %5000x25
 Theta1_grad = 1/m * delta2' * a1 ;                                  %5000x25 * 5000x401   25x401
 
 
-Theta1_grad += lambda/(2*m)*(sum(sum(Theta1))-sum(Theta1(:,1))) ;
-Theta2_grad += lambda/(2*m)*(sum(sum(Theta2))-sum(Theta2(:,1))) ;
+%%%%%%%%%%%%%% PART THREE REGULARIZATION %%%%%%%%%%%%%%%
 
+J += lambda/(2*m)*( sum(sum(Theta1.^2))+sum(sum(Theta2.^2))-sum(Theta1(:,1).^2)-sum(Theta2(:,1).^2) );
+
+for i=1:size(Theta1,1)
+for j=2:size(Theta1,2)
+Theta1_grad(i,j) += lambda/m*Theta1(i,j);
+end
+end
+for i=1:size(Theta2,1)
+for j=2:size(Theta2,2)
+Theta2_grad(i,j) += lambda/m*Theta2(i,j);
+end
+end
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% END %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
-
 end
 
-% Need 80 of 100   Have 90 of 100
-
-%   Theta_temp = Theta1;
-
-%   for i=1:size(Theta_temp,1)
-%   for j=2:size(Theta_temp,2)
-%   Theta1_grad += lambda/(2*m)*Theta_temp(i,j);
-%   end
-%   end
-
-%   Theta_temp = Theta2;
-
-%   for i=1:size(Theta_temp,1)
-%   for j=2:size(Theta_temp,2)
-%   Theta2_grad += lambda/(2*m)*Theta_temp(i,j);
-%   end
-%   end
-
+% 100 of 100
