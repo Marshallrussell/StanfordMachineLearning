@@ -43,7 +43,7 @@ error_val   = zeros(m, 1);
 %
         for i = 1:m
             theta = trainLinearReg(X(1:i,:), y(1:i), lambda);
-            error_train(i) = linearRegCostFunction(X,y,theta,0);
+            error_train(i) = linearRegCostFunction(X(1:i,:),y(1:i),theta,0);
             error_val(i) = linearRegCostFunction(Xval,yval,theta,0);
         end
 
@@ -53,7 +53,7 @@ error_val   = zeros(m, 1);
 %             DOES THE ERROR TRAIN NEED TO BE SUBSETS  
 %             
 %             IS THE M=1 CASE AFFECTED BY THE 1ST POLYNOMIAL (THETA + THETA*X1)
-%
+%             IS THE M=1 A SUBSET CASE...  AND ERROR_TRAIN USES SUBSETS...
 %      -->    You must be absolutely certain that your cost function code 
 %             works correctly when m = 1.
 %
