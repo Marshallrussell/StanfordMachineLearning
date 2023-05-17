@@ -1,4 +1,5 @@
-function [error_train, error_val] = learningCurve(X, y, Xval, yval, lambda)
+function [error_train, error_val] = ...
+    learningCurve(X, y, Xval, yval, lambda)
 %LEARNINGCURVE Generates the train and cross validation set errors needed 
 %to plot a learning curve
 %   [error_train, error_val] = ...
@@ -15,6 +16,7 @@ function [error_train, error_val] = learningCurve(X, y, Xval, yval, lambda)
 
 % Number of training examples
 m = size(X, 1);
+v = size(Xval,1);
 
 % You need to return these values correctly
 error_train = zeros(m, 1);
@@ -42,26 +44,29 @@ error_val   = zeros(m, 1);
 % Hint: You can loop over the examples with the following:
 %
         for i = 1:m
+%           % Compute train/cross validation errors using training examples 
+%           % X(1:i, :) and y(1:i), storing the result in 
+%           % error_train(i) and error_val(i)
             theta = trainLinearReg(X(1:i,:), y(1:i), lambda);
             error_train(i) = linearRegCostFunction(X,y,theta,0);
-            error_val(i) = linearRegCostFunction(Xval,yval,theta,0);
+        end
+        for j = 1:m
+            theta = trainLinearReg(Xval(1:j,:), yval(1:j), lambda);
+            error_val(j) = linearRegCostFunction(Xval,yval,theta,0);
         end
 
+
+
 % ---------------------- Sample Solution ----------------------
-%
-%
-%             DOES THE ERROR TRAIN NEED TO BE SUBSETS  
-%             
-%             IS THE M=1 CASE AFFECTED BY THE 1ST POLYNOMIAL (THETA + THETA*X1)
-%
-%      -->    You must be absolutely certain that your cost function code 
-%             works correctly when m = 1.
-%
-%      -->    Is The theta is calculated once.  
-%
-%             Compute train/cross validation errors using training examples 
-%             X(1:i, :) and y(1:i), storing the result in 
-%             error_train(i) and error_val(i)
+
+
+
+
+
+
+
+% -------------------------------------------------------------
+
 % =========================================================================
 
 end

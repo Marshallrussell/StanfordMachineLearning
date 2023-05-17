@@ -27,28 +27,19 @@ error_val = zeros(length(lambda_vec), 1);
 % Note: You can loop over lambda_vec with the following:
 
        for i = 1:length(lambda_vec)
-            lambda = lambda_vec(i);
-
+           lambda = lambda_vec(i);
+           % Compute train / val errors when training linear 
+           % regression with regularization parameter lambda
+           % You should store the result in error_train(i)
+           % and error_val(i)
+           
             theta = trainLinearReg(X, y, lambda);
             error_train(i) = linearRegCostFunction(X,y,theta,lambda);
+            theta = trainLinearReg(Xval, yval, lambda);
             error_val(i) = linearRegCostFunction(Xval,yval,theta,lambda);
        end
+
 
 % =========================================================================
 
 end
-
-%      DOES THE ERROR TRAIN NEED TO BE SUBSETS  
-%      
-%       IS THE M=1 CASE AFFECTED BY THE 1ST POLYNOMIAL (THETA + THETA*X1)
-%
-%
-%      -->    You must be absolutely certain that your cost function code 
-%             works correctly when m = 1.
-%
-%       -->   The theta is calculated once.  
-%
-%             Compute train / val errors when training linear 
-%             regression with regularization parameter lambda
-%             You should store the result in error_train(i)
-%             and error_val(i)

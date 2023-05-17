@@ -23,16 +23,17 @@ predictions = X * theta;
 
 sqrErrors = (predictions - y) .^2;
 
+% HERE HERE HERE
 J = 1/(2*m)*sum(sqrErrors) + (lambda/(2*m))*sum(theta(2:length(theta)).^2) ;
 
 grad = 1/m*X'*(predictions-y) +  lambda/m*theta.*(ones(size(theta))-eye(size(theta))) ;
-
-
-
-
 
 % =========================================================================
 
 grad = grad(:);
 
 end
+
+%  DOES THIS ERROR HAVE SOMETHING TO DO WITH THE THETA(2:LENGTH(THETA))
+%  You must be absolutely certain that your cost function code 
+%  works correctly when m = 1.
