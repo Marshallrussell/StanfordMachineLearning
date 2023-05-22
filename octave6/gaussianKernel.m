@@ -25,19 +25,6 @@ sum = sqrt(sum);
 sim = exp(-sum.^2/(2*sigma.^2));
 
 
-%  CURRENT
-% the first way was the normalized distance squared 
-% i.e. the square all each summe and taken square root and then squared...
-
-%  NEXT
-% the possibly way is that the distance is squared, 
-% then each difference squared is added to together...  
-% but not sure if it should be square rooted and also not sure if it gets squared outside the normalization...
-
-
-
-
-
 
 % =============================================================
     
