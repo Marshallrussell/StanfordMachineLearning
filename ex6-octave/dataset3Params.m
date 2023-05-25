@@ -32,9 +32,3 @@ sigma = 0.3;
 % =========================================================================
 
 end
-
-%   Evaluating the Gaussian Kernel ...
-%   warning: time stamp for 'C:\Users\Admin\Documents\GitHub\Machine-Learning-Stanford
-%   \octave6\gaussianKernel.m' is in the future
-%   warning: called from
-%       ex6 at line 67 column 5
