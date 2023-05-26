@@ -19,10 +19,10 @@ sim = 0;  a=0;
 
 
 for j=1:n
-a += sum ( (x1(j)-x2(j)).^2) ;
+a += (x1(j)-x2(j))^2 ;
 end
 
-sim = exp(-a / (2*sigma.^2));
+sim = exp(-a / (2*sigma^2));
 
 
 

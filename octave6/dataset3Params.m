@@ -6,6 +6,12 @@ function [C, sigma] = dataset3Params(X, y, Xval, yval)
 %   sigma. You should complete this function to return the optimal C and 
 %   sigma based on a cross-validation set.
 %
+%
+
+% I HAD TO ADD THIS - PROBABLY THERE IS A DIFFERENT METHOD  ARBITRARY C VALUES
+
+num= [0.01 ; 0.03 ; .1 ; .3 ; 1 ; 3 ; 10 ; 30]
+err = zeros(length(num));
 
 % You need to return the following variables correctly.
 C = 1;
@@ -25,16 +31,19 @@ sigma = 0.3;
 
 
 
-
-
+for indexC=1:size(err,1)
+for indexS=1:size(err,1)
+    sim = gaussianKernel(X, y, num(indexS));
+    model = svmTrain(X, y, num(indexC), sim, 1e-3, 5);
+    pred = svmPredict(model,Xval);
+    err(indexC,indexS) = mean(double(pred ~= yval));
+    if err(indexC,indexS) <= min(min(err));
+    sigma = num(indexS);  C = num(indexC) ;
+    end
+end
+end
 
 
 % =========================================================================
 
 end
-
-%   Evaluating the Gaussian Kernel ...
-%   warning: time stamp for 'C:\Users\Admin\Documents\GitHub\Machine-Learning-Stanford
-%   \octave6\gaussianKernel.m' is in the future
-%   warning: called from
-%       ex6 at line 67 column 5

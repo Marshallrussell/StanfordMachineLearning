@@ -10,8 +10,8 @@ function [C, sigma] = dataset3Params(X, y, Xval, yval)
 
 % I HAD TO ADD THIS - PROBABLY THERE IS A DIFFERENT METHOD  ARBITRARY C VALUES
 
-numbers = [0.01 , 0.03 , .1 , .3 , 1 , 3 , 10 , 30]
-errors = zeros(length(numbers),length(numbers));
+num= [0.01 , 0.03 , .1 , .3 , 1 , 3 , 10 , 30]
+err = zeros(length(values));
 
 % You need to return the following variables correctly.
 C = 1;
@@ -30,30 +30,18 @@ sigma = 0.3;
 %
 
 
-for i=1:length(numbers)
-for j=1:length(numbers)
-C = i; sigma = j; x1=X; x2=y;
-sim = gaussianKernel(x1, x2, sigma) ;
-model = svmTrain(X, y, C, sim, 1e-3, 5) ;
-pred = svmPredict(model,Xval) ;
-errors[i,j] = mean(double(pred ~= yval)) ;
-end
-end
 
-min = errors(1,1);
-for i=1:size(errors,1)
-for j=1:size(errors,2)
-if errors(i,j) < min,
-min = errors(i,j);
-index_sigma = j; index_C = i;
+for indexC=1:size(err,1)
+for indexS=1:size(err,1)
+    sim = gaussianKernel(X, y, num(indexS));
+    model = svmTrain(X, y, num(indexC), sim, 1e-3, 5);
+    pred = svmPredict(model,Xval);
+    err(indexC,indexS) = mean(double(pred ~= yval));
+    if err(indexC,indexS) <= min(min(err));
+    sigma = num(indexS);  C = num(indexC) ;
+    end
 end
 end
-end
-
-C = numbers(index_C);
-sigma = numbers(index_sigma);
-
-
 
 
 % =========================================================================
