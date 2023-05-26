@@ -8,7 +8,7 @@ x1 = x1(:); x2 = x2(:);
 n = length(x1);
 
 % You need to return the following variables correctly.
-sim = 0;  a=0;
+sim = 0;
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return the similarity between x1
@@ -17,14 +17,7 @@ sim = 0;  a=0;
 %
 %
 
-
-for j=1:n
-a += (x1(j)-x2(j))^2 ;
-end
-
-sim = exp(-a / (2*sigma^2));
-
-
+sim = exp(sum((x1(1:n)-x2(1:n)).^2) / (2*sigma^2));
 
 
 % =============================================================

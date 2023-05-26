@@ -8,9 +8,7 @@ function [C, sigma] = dataset3Params(X, y, Xval, yval)
 %
 %
 
-% I HAD TO ADD THIS - PROBABLY THERE IS A DIFFERENT METHOD  ARBITRARY C VALUES
-
-num= [0.01 ; 0.03 ; .1 ; .3 ; 1 ; 3 ; 10 ; 30]
+num= [0.01 ; 0.03 ; .1 ; .3 ; 1 ; 3 ; 10 ; 30];
 err = zeros(length(num));
 
 % You need to return the following variables correctly.
@@ -28,17 +26,20 @@ sigma = 0.3;
 %  Note: You can compute the prediction error using 
 %        mean(double(predictions ~= yval))
 %
+%  edit out the model parameters tol and numpasses: 1e-3, 5
+% The X: 211x1... After loop, X: 422x1.  The y: 211x1  && To show use first line size(X)
 
 
+total = 1000000;
 
 for indexC=1:size(err,1)
-for indexS=1:size(err,1)
+for indexS=1:size(err,1)   
     sim = gaussianKernel(X, y, num(indexS));
-    model = svmTrain(X, y, num(indexC), sim, 1e-3, 5);
+    model = svmTrain(X, y, num(indexC), sim);
     pred = svmPredict(model,Xval);
-    err(indexC,indexS) = mean(double(pred ~= yval));
-    if err(indexC,indexS) <= min(min(err));
-    sigma = num(indexS);  C = num(indexC) ;
+    err = mean(double(pred ~= yval));
+    if total >= err,
+    sigma = num(indexS);  C = num(indexC); total = err;
     end
 end
 end
@@ -47,3 +48,7 @@ end
 % =========================================================================
 
 end
+
+% if err <= min(min(err));
+%    sigma = num(indexS);  C = num(indexC) ;
+   
