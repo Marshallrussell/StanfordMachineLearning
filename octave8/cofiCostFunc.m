@@ -50,6 +50,9 @@ end
 end
 end
 
+% CREATE A Y WITH PARAMETERS X(1:NUM_MOVIES, 1:NUM_USERS)
+% CREATE THE X AND THETA WITH NO PARAMETERS
+
 for k=1:num_features
 for i=1:num_movies
 for j=1:num_users
