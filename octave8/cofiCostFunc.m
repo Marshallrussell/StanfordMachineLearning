@@ -40,45 +40,27 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
-% NEEDS REGULARIZATION FOR BOTH COST AND GRAD
+
+
+J = 1/2 * sum(sum((R.*(X*Theta') - R.*Y).^2)) ; 
+JReg = 1/2*sum(sum(Theta.^2))+1/2*sum(sum(X.^2));
+J = J + lambda * JReg ;
 
 for i=1:num_movies
-for j=1:num_users
-if R(i,j) == 1
-J += 1/2 * (X(i,:)*Theta(j,:)'-Y(i,j)).^2;
-end
-end
-end
-
-% CREATE A Y WITH PARAMETERS X(1:NUM_MOVIES, 1:NUM_USERS)
-% CREATE THE X AND THETA WITH NO PARAMETERS
-
-for k=1:num_features
-for i=1:num_movies
-for j=1:num_users
-if R(i,j) == 1
-X_grad(i,k) += (X(i,:)*Theta(j,:)' - Y(i,j)) * Theta(j,k);
-Theta_grad(j,k) += (X(i,:)*Theta(j,:)'-Y(i,j)) * X(i,k);
-end
-end
-end
+idx = find(R(i,:)==1);
+Theta_temp = Theta(idx,:);
+Y_temp = Y(i,idx);
+X_grad(i,:) = (X(i,:)*Theta_temp' - Y_temp)*Theta_temp + lambda*X(i,:);
 end
 
-% WHAT IF THE THETA WENT IN FRONT OF THE EQUATION AND IT WAS A VECTOR and the parameters were vectors
- 
 
-%   this is the vectored form
-%   THETA(J,K) TO THETA(J,:)
-%   X_grad(i,:) += 1/2 * (X(i,:)*Theta(j,:)' - Y(i,j)) * Theta(j,:);
-%   Theta_grad(j,:) += 1/2 * (X(i,:)*Theta(j,:)'-Y(i,j)) * X(i,:);
+for i=1:num_users
+idx = find(R(:,i)==1);
+X_temp = X(idx,:);
+Y_temp = Y(idx,i)
+Theta_grad(i,:) = (X_temp*Theta(i,:)' - Y_temp)'*X_temp + lambda*Theta(i,:); 
+end
 
-%   this is the full vectorized form
-%   X_grad(i,k) += 1/2 * (X*Theta' - Y) * Theta;
-%   Theta_grad(j,k) += 1/2 * (X*Theta'-Y)' * X;
-
-%   This is the looped form
-%   X_grad(i,k) += (X(i,:)*Theta(j,:)' - Y(i,j)) * Theta(j,k);
-%   Theta_grad(j,k) += (X(i,:)*Theta(j,:)'-Y(i,j)) * X(i,k);
 
 
 % =============================================================
