@@ -13,6 +13,11 @@ centroids = zeros(K, size(X, 2));
 %               the dataset X
 %
 
+% randomly reorder the indices of examples
+randidx = randperm(size(X,1));
+
+% take the first K examples as centroids
+centroids = X(randidx(1:K), :);
 
 
 
@@ -21,6 +26,9 @@ centroids = zeros(K, size(X, 2));
 
 
 % =============================================================
+
+%  @@@@@ MEAN OF THE CLOSEST CENTROID MEANS...
+%  @@@@@ THE ORIGINAL PICTURE DIVIDED BY THE MEAN COLOR AND IN SIXTEEN CENTERS. 
 
 end
 
