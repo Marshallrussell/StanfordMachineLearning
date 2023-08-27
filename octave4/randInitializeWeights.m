@@ -22,7 +22,7 @@ W = zeros(L_out, 1 + L_in);
 INIT_EPSILON = sqrt(6)/(sqrt(L_out + L_in));
 
 Theta1 = rand(L_out, L_in) * (2 * INIT_EPSILON) - INIT_EPSILON;
-Theta1 = [ones(Theta1,1) Theta1];
+Theta1 = [ones(Theta1,1) Theta1];   
 W = Theta1;
 
 % =========================================================================
