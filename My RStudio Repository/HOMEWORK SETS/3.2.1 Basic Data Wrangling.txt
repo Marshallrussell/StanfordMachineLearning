@@ -1,0 +1,33 @@
+malaga@DADDARIO:~$ R
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> # creating a data frame with stringAsDactors = FALSE
+> grades <- data.frame(names = c("John","Juan","Jean","Yao"), exam_1 = c(95,80,90,85), exam_2 = c(90,85,85,90), stringAFactors = FALSE)
+> grades
+  names exam_1 exam_2 stringAFactors
+1  John     95     90          FALSE
+2  Juan     80     85          FALSE
+3  Jean     90     85          FALSE
+4   Yao     85     90          FALSE
+> class(grades)
+[1] "data.frame"
+> 

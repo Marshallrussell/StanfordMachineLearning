@@ -1,0 +1,70 @@
+malaga@DADDARIO:~$ R
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(dslabs)
+
+Attaching package: ‘dslabs’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    murders
+
+> data(murders)
+> murders <- mutate(murders, rate= total/population * 10^5)
+> 
+> # minumum, median, and maximum murder rate for the states in the West region
+ the states in the West region> 
+> s <- murders %>% filter(region == "West") %>% summarize(minimum = min(rate), median = median(rate), maximum = max(rate))
+> s
+   minimum   median  maximum
+1 0.514592 1.292453 3.629527
+> 
+> # accessing the components with the accessor $
+> s$median
+[1] 1.292453
+> x$maximum
+Error in x$maximum : $ operator is invalid for atomic vectors
+> s$maximum
+[1] 3.629527
+> 
+> # average rate unadjusted by population size
+> mean(murders$rate)
+[1] 2.779125
+> 
+> # average rate adjusted by population size
+> us_murder_rate <- murders %>% summarize(rate = sum(total) / sum(population) * 10^5)
+> us_murder_rate
+      rate
+1 3.034555
+> 

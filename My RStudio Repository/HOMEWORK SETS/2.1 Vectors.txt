@@ -1,0 +1,56 @@
+malaga@DADDARIO:~$ R
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> codes <- c(380,124.818)
+> country <- c("italy","canada","egypt")
+> 
+> codes <- c(italy = 380, canada = 124, egypt = 818)
+> codes <- c("italy" = 380, "canada" = 124, "egypt" = 818)
+> 
+> codes <- c(380,124.818)
+> country <- c("italy","canada","egypt")
+> 
+> names(codes) <- country
+Error in names(codes) <- country : 
+  'names' attribute [3] must be the same length as the vector [2]
+> length(codes)
+[1] 2
+> codes <- c(380,124,818)
+> names(codes) <- country
+> codes[2]
+canada 
+   124 
+> codes[c(1,3)]
+italy egypt 
+  380   818 
+> codes[1:2]
+ italy canada 
+   380    124 
+> 
+> codes["canada"]
+canada 
+   124 
+> codes[c("egypt","italy")
++ ]
+egypt italy 
+  818   380 
+> 

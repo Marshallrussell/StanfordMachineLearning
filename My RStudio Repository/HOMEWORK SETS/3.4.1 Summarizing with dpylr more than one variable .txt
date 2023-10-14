@@ -1,0 +1,80 @@
+malaga@DADDARIO:~$ R
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> library(tidyverse)
+Error in library(tidyverse) : there is no package called ‘tidyverse’
+> library(dplyr)
+l
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(dslabs)
+
+Attaching package: ‘dslabs’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    murders
+
+> data(murders)
+> murders <- mutate(murders, rate=total/population*10^5)
+> 
+> murders %>% filter(region == "West") %>% summarize(range = quantile(rate, c(0,0.5,1)))
+     range
+1 0.514592
+2 1.292453
+3 3.629527
+> 
+> my_quantile <- function(x) {
++ r <- quantile(x, c(0,0.5,1))
++ data.frame(minimum = r[1], median = r[2], maximum = r[3])
++ }
+> 
+> murders %>% filter(region=="West") %>% summarize(my_quantile(rate))
+   minimum   median  maximum
+1 0.514592 1.292453 3.629527
+> 
+> # minimum, median, maximum murder rates for the states in the West region using quantile
+> # note that this returns a vector
+> murders %>% filter(region == "West") %>% summarize(range = quantile(rate, c(0,0.5,1)))
+     range
+1 0.514592
+2 1.292453
+3 3.629527
+> 
+> #returning minimum, median, and maximum as a data frame
+> my_quantile <- function(x) {
++ r <- quantile(x, c(0,0.5,1))
++ data.frame(minimum = r[1], median = r[2], maximum = r[3])
++ }
+> 
+> murders %>% filter(region == "West") %>% summarize(my_quantile(rate))
+   minimum   median  maximum
+1 0.514592 1.292453 3.629527
+> 

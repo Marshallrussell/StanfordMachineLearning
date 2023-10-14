@@ -1,0 +1,99 @@
+malaga@DADDARIO:~$ R
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> library(dplyr)
+l
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(dslabs)
+
+Attaching package: ‘dslabs’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    murders
+
+> data(murders)
+> murders <- mutate(murders, rate = total/population * 10^5)
+> 
+> # order the states by population size
+> murders %>% arrange(population) %>% head()
+                 state abb        region population total       rate
+1              Wyoming  WY          West     563626     5  0.8871131
+2 District of Columbia  DC         South     601723    99 16.4527532
+3              Vermont  VT     Northeast     625741     2  0.3196211
+4         North Dakota  ND North Central     672591     4  0.5947151
+5               Alaska  AK          West     710231    19  2.6751860
+6         South Dakota  SD North Central     814180     8  0.9825837
+> 
+> # order the states by murder rate - the default is ascending order
+> murders %>% arrange(rate) %>% head()
+          state abb        region population total      rate
+1       Vermont  VT     Northeast     625741     2 0.3196211
+2 New Hampshire  NH     Northeast    1316470     5 0.3798036
+3        Hawaii  HI          West    1360301     7 0.5145920
+4  North Dakota  ND North Central     672591     4 0.5947151
+5          Iowa  IA North Central    3046355    21 0.6893484
+6         Idaho  ID          West    1567582    12 0.7655102
+> 
+> # order the states by murder rate in descending order
+> murders %>% arrange(desc(rate)) %>% head()
+                 state abb        region population total      rate
+1 District of Columbia  DC         South     601723    99 16.452753
+2            Louisiana  LA         South    4533372   351  7.742581
+3             Missouri  MO North Central    5988927   321  5.359892
+4             Maryland  MD         South    5773552   293  5.074866
+5       South Carolina  SC         South    4625364   207  4.475323
+6             Delaware  DE         South     897934    38  4.231937
+> 
+> # order the states by region and then by murder rate within region
+> murders %>% arrange(region, rate) %>% head()
+          state abb    region population total      rate
+1       Vermont  VT Northeast     625741     2 0.3196211
+2 New Hampshire  NH Northeast    1316470     5 0.3798036
+3         Maine  ME Northeast    1328361    11 0.8280881
+4  Rhode Island  RI Northeast    1052567    16 1.5200933
+5 Massachusetts  MA Northeast    6547629   118 1.8021791
+6      New York  NY Northeast   19378102   517 2.6679599
+> 
+> # return the top 10 states by murder rate
+> murders %>% top_n(10,rate)
+                  state abb        region population total      rate
+1               Arizona  AZ          West    6392017   232  3.629527
+2              Delaware  DE         South     897934    38  4.231937
+3  District of Columbia  DC         South     601723    99 16.452753
+4               Georgia  GA         South    9920000   376  3.790323
+5             Louisiana  LA         South    4533372   351  7.742581
+6              Maryland  MD         South    5773552   293  5.074866
+7              Michigan  MI North Central    9883640   413  4.178622
+8           Mississippi  MS         South    2967297   120  4.044085
+9              Missouri  MO North Central    5988927   321  5.359892
+10       South Carolina  SC         South    4625364   207  4.475323
+> 

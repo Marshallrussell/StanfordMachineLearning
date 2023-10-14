@@ -1,0 +1,99 @@
+malaga@DADDARIO:~$ R
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> murders$state[which.max(murders$population)]
+[1] "California"
+> murder_rate <- murders$total / murders$population * 100000
+> murders$state[order(murder_rate, decreasing=TRUE)]
+ [1] "District of Columbia" "Louisiana"            "Missouri"            
+ [4] "Maryland"             "South Carolina"       "Delaware"            
+ [7] "Michigan"             "Mississippi"          "Georgia"             
+[10] "Arizona"              "Pennsylvania"         "Tennessee"           
+[13] "Florida"              "California"           "New Mexico"          
+[16] "Texas"                "Arkansas"             "Virginia"            
+[19] "Nevada"               "North Carolina"       "Oklahoma"            
+[22] "Illinois"             "Alabama"              "New Jersey"          
+[25] "Connecticut"          "Ohio"                 "Alaska"              
+[28] "Kentucky"             "New York"             "Kansas"              
+[31] "Indiana"              "Massachusetts"        "Nebraska"            
+[34] "Wisconsin"            "Rhode Island"         "West Virginia"       
+[37] "Washington"           "Colorado"             "Montana"             
+[40] "Minnesota"            "South Dakota"         "Oregon"              
+[43] "Wyoming"              "Maine"                "Utah"                
+[46] "Idaho"                "Iowa"                 "North Dakota"        
+[49] "Hawaii"               "New Hampshire"        "Vermont"             
+> murder_rate
+ [1]  2.8244238  2.6751860  3.6295273  3.1893901  3.3741383  1.2924531
+ [7]  2.7139722  4.2319369 16.4527532  3.3980688  3.7903226  0.5145920
+[13]  0.7655102  2.8369608  2.1900730  0.6893484  2.2081106  2.6732010
+[19]  7.7425810  0.8280881  5.0748655  1.8021791  4.1786225  0.9992600
+[25]  4.0440846  5.3598917  1.2128379  1.7521372  3.1104763  0.3798036
+[31]  2.7980319  3.2537239  2.6679599  2.9993237  0.5947151  2.6871225
+[37]  2.9589340  0.9396843  3.5977513  1.5200933  4.4753235  0.9825837
+[43]  3.4509357  3.2013603  0.7959810  0.3196211  3.1246001  1.3829942
+[49]  1.4571013  1.7056487  0.8871131
+> index <- murder_rate <0.71
+> index <- murder_rate <= 0.71
+> index
+ [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
+[13] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+[25] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE
+[37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
+[49] FALSE FALSE FALSE
+> murders$state[index]
+[1] "Hawaii"        "Iowa"          "New Hampshire" "North Dakota" 
+[5] "Vermont"      
+> sum(index)
+[1] 5
+> west <- murders$region == "West"
+> safe <- murder_rate <= 1
+> index <- safe & west
+> murders$state[index]
+[1] "Hawaii"  "Idaho"   "Oregon"  "Utah"    "Wyoming"
+> 
+> index <- which(murders$state == "Massachusetts")
+> index
+[1] 22
+> murders_rate[index]
+Error: object 'murders_rate' not found
+> murder_rate[index]
+[1] 1.802179
+> x <- c(FALSE, TRUE, FALSE, TRUE, TRUE, FALSE)
+> which(x)
+[1] 2 4 5
+> index <- which(murders$state == "Massachusetts")
+> index
+[1] 22
+> murders$state[index]
+[1] "Massachusetts"
+> murder_rate[index]
+[1] 1.802179
+> 
+> x <- c("a","b","c","d","e")
+> y <- c("a","d","f")
+> y %in% x
+[1]  TRUE  TRUE FALSE
+> 
+> #to see if Boston, Dakota, and Washington are states
+> c("Boston","Dakota","Washington") %in% murders$state
+[1] FALSE FALSE  TRUE
+> 

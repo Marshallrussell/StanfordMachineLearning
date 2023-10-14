@@ -1,0 +1,70 @@
+malaga@DADDARIO:~$ R
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> library(tidyverse)
+Error in library(tidyverse) : there is no package called ‘tidyverse’
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(dslabs)
+
+Attaching package: ‘dslabs’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    murders
+
+> data(murders)
+> murders <- mutate(murders, rate=total/population*10^5)
+> 
+> # average rate adjusted by population size
+> us_murder_rate <- murders %>% summarize(rate = sum(total) / sum(population) * 10^5)
+> us_murder_rate
+      rate
+1 3.034555
+> 
+> # us_murder_rate is stored as a data frame
+> class(us_murder_rate)
+[1] "data.frame"
+> 
+> # the pull function can return it as a numeric value
+> us_murder_rate %>% pull(rate)
+[1] 3.034555
+> 
+> #using pull to save the number directly
+> us_murder_rate <- murders %>% summarize(rate = sum(total) / sum(population) * 10^5) %>% pull(rate)
+> us_murder_rate
+[1] 3.034555
+> 
+> # us_murder_rate is now stored as a number
+> class(us_murder_rate)
+[1] "numeric"
+> 

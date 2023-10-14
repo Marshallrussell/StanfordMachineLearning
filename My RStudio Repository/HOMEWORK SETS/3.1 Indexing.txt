@@ -1,0 +1,45 @@
+malaga@DADDARIO:~$ R
+
+R version 3.6.3 (2020-02-29) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> murder_rate <- murders$total / murders$population * 100000
+> # creating a logical vector that specifies if the murder rate in that state is less than or equal to 0.71
+> index <- murder_rate <= 0.71
+> murders$state[index
++ ]s
+Error: unexpected symbol in:
+"murders$state[index
+]s"
+> murders$state[index]
+[1] "Hawaii"        "Iowa"          "New Hampshire" "North Dakota" 
+[5] "Vermont"      
+> sum(index)
+[1] 5
+> #sums the true as 1s
+> 
+> #creating two logical vectors representing our conditions.
+> west <- murders$region == "West"
+> safe <- murder_rate <= 1
+> # defining an index and identifying states with both conditions true
+> index <- safe & west
+> murders$state[index]
+[1] "Hawaii"  "Idaho"   "Oregon"  "Utah"    "Wyoming"
+> 
