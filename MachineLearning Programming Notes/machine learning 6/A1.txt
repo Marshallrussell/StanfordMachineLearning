@@ -1,0 +1,1 @@
+getting more training data will lower cross validation and low means smaller error which we are looking for and you choose a training number (normally polynomial)
