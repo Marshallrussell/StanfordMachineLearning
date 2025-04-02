@@ -1,0 +1,32 @@
+plot(x, y);   % Your plot code here
+drawnow;      % Forces the plot to be updated and displayed
+
+plot(x, y);         % Plot the data
+saveas(gcf, 'myplot.png');  % Save the plot to a file
+
+
+% You can save the plots as image files (e.g., .png, .jpg, or .svg) by adding the following to your .m script:
+
+print("plot.png", "-dpng");
+% Then check the Jupyter file browser on the left and open plot.png.
+
+
+x = linspace(0, 10, 100);
+y = sin(x);
+plot(x, y);
+xlabel("X Axis");
+ylabel("Y Axis");
+title("Sine Wave");
+grid on;
+drawnow;
+
+% Before your plotting commands, add:
+figure;  % Ensure a new figure is created
+hold on; % Keep the figure open for multiple plots
+
+
+
+% Redirect output to a file instead of the Jupyter console:
+diary("output.log");   % Start logging
+ex5;                   % Run script
+diary off;             % Stop logging
